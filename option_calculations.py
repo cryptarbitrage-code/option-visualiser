@@ -4,28 +4,20 @@ from scipy.stats import norm
 N = norm.cdf
 Np = norm.pdf
 
-S = 3000
-K = 2000
-T = 0.5692439751395231
-R = 0
-sigma = 0.9578
-option_type = "P"
 
-
-def option_profit(premium, strike, chart_low, chart_high, option_type="C"):
+def option_profit_expiry(premium, strike, chart_low, chart_high, option_type, step_number):
     profit_list = []
-    steps = 100
-    step = (chart_high - chart_low) / steps
+    step = (chart_high - chart_low) / step_number
     count = 0
     if option_type == "C":
-        while count < steps + 1:
+        while count < step_number + 1:
             if chart_low + (count * step) < strike:
                 profit_list.append(0 - premium)
             else:
                 profit_list.append((chart_low + (count * step)) - strike - premium)
             count = count + 1
     else:
-        while count < steps + 1:
+        while count < step_number + 1:
             if chart_low + (count * step) < strike:
                 profit_list.append(strike - (chart_low + (count * step)) - premium)
             else:
@@ -34,20 +26,19 @@ def option_profit(premium, strike, chart_low, chart_high, option_type="C"):
     return profit_list
 
 
-def inverse_option_profit(premium, strike, chart_low, chart_high, option_type="C"):
+def inverse_option_profit_expiry(premium, strike, chart_low, chart_high, option_type, step_number):
     profit_list = []
-    steps = 100
-    step = (chart_high - chart_low) / steps
+    step = (chart_high - chart_low) / step_number
     count = 0
     if option_type == "C":
-        while count < steps + 1:
+        while count < step_number + 1:
             if chart_low + (count * step) < strike:
                 profit_list.append(0 - premium)
             else:
                 profit_list.append(((chart_low + (count * step)) - strike)/(chart_low + (count * step)) - premium)
             count = count + 1
     else:
-        while count < steps + 1:
+        while count < step_number + 1:
             if chart_low + (count * step) < strike:
                 profit_list.append((strike - (chart_low + (count * step)))/(chart_low + (count * step)) - premium)
             else:
@@ -56,7 +47,7 @@ def inverse_option_profit(premium, strike, chart_low, chart_high, option_type="C
     return profit_list
 
 
-def bs_price(S, K, T, R, sigma, option_type="C"):
+def bs_price(S, K, T, R, sigma, option_type):
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
     d2 = d1 - sigma * np.sqrt(T)
 
@@ -67,7 +58,7 @@ def bs_price(S, K, T, R, sigma, option_type="C"):
     return price
 
 
-def bs_delta(S, K, T, R, sigma, option_type="C"):
+def bs_delta(S, K, T, R, sigma, option_type):
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
     if option_type == "C":
         delta = N(d1)
@@ -90,7 +81,7 @@ def bs_vega(S, K, T, R, sigma):
     return vega * 0.01
 
 
-def bs_theta(S, K, T, R, sigma, option_type="C"):
+def bs_theta(S, K, T, R, sigma, option_type):
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
     d2 = d1 - sigma * np.sqrt(T)
 
@@ -101,7 +92,7 @@ def bs_theta(S, K, T, R, sigma, option_type="C"):
     return theta / 365
 
 
-def bs_rho(S, K, T, R, sigma, option_type="C"):
+def bs_rho(S, K, T, R, sigma, option_type):
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
     d2 = d1 - sigma * np.sqrt(T)
 
@@ -110,11 +101,3 @@ def bs_rho(S, K, T, R, sigma, option_type="C"):
     elif option_type == "P":
         rho = -K * T * np.exp(-R * T) * N(-d2)
     return rho * 0.01
-
-
-#print("Price: ", bs_price(S, K, T, R, sigma, option_type="P"))
-#print("Delta: ", bs_delta(S, K, T, R, sigma, option_type))
-#print("Gamma: ", bs_gamma(S, K, T, R, sigma, option_type="P"))
-#print("Vega: ", bs_vega(S, K, T, R, sigma, option_type="P"))
-#print("Theta: ", bs_theta(S, K, T, R, sigma, option_type="P"))
-#print("Rho: ", bs_rho(S, K, T, R, sigma, option_type="P"))
