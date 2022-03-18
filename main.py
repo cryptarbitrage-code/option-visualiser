@@ -7,6 +7,8 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 import option_calculations as oc
 
+# NEED TO TAKE POSITION SIZES INTO ACCOUNT
+
 # Some chart parameters
 step_number = 100
 chart_size = (6, 4)
@@ -36,6 +38,7 @@ def calculate_profit():
         if option_details_list[i]['include_variable'].get():
             premium = float(option_details_list[i]['premium_input'].get())
             strike = float(option_details_list[i]['strike_input'].get())
+            size = float(option_details_list[i]['size'].get())
             chart_low = float(chart_minprice_input.get())
             chart_high = float(chart_maxprice_input.get())
             if option_details_list[i]['option_type_var'].get() == "Call":
@@ -43,9 +46,9 @@ def calculate_profit():
             else:
                 option_type = "P"
             if selected_contract_type.get() == "Linear":
-                profit_list = oc.option_profit_expiry(premium, strike, chart_low, chart_high, option_type, step_number)
+                profit_list = oc.option_profit_expiry(premium, strike, size, chart_low, chart_high, option_type, step_number)
             else:
-                profit_list = oc.inverse_option_profit_expiry(premium, strike, chart_low, chart_high, option_type, step_number)
+                profit_list = oc.inverse_option_profit_expiry(premium, strike, size, chart_low, chart_high, option_type, step_number)
             individual_option_profits.append(profit_list)
     # calculate the total profit
     for option in individual_option_profits:
@@ -127,8 +130,8 @@ premium_label = Label(option_details_frame, text="Option Premium:")
 premium_label.grid(row=0, column=1)
 strike_price_label = Label(option_details_frame, text="Strike Price:")
 strike_price_label.grid(row=0, column=2)
-include_label = Label(option_details_frame, text="Size:")
-include_label.grid(row=0, column=3)
+size_label = Label(option_details_frame, text="Size:")
+size_label.grid(row=0, column=3)
 include_label = Label(option_details_frame, text="Include:")
 include_label.grid(row=0, column=4)
 
@@ -141,7 +144,7 @@ for i in range(0, number_of_options):
                      'option_type_input': 0,
                      'premium_input': 0,
                      'strike_input': 0,
-                     'quantity': 0,
+                     'size': 0,
                      'include_variable': 0,
                      'include_checkbox': 0}
     option_details_list.append(single_option)
@@ -162,8 +165,8 @@ for i in range(0, number_of_options):
     option_details_list[i]['strike_input'] = Entry(option_details_frame, width=15)
     option_details_list[i]['strike_input'].grid(row=i + 2, column=2, padx=5, pady=5)
     # quantity
-    option_details_list[i]['quantity'] = Entry(option_details_frame, width=15)
-    option_details_list[i]['quantity'].grid(row=i + 2, column=3, padx=5, pady=5)
+    option_details_list[i]['size'] = Entry(option_details_frame, width=15)
+    option_details_list[i]['size'].grid(row=i + 2, column=3, padx=5, pady=5)
     # include variable
     option_details_list[i]['include_variable'] = IntVar()
     # include checkbox

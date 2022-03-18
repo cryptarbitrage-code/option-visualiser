@@ -5,44 +5,44 @@ N = norm.cdf
 Np = norm.pdf
 
 
-def option_profit_expiry(premium, strike, chart_low, chart_high, option_type, step_number):
+def option_profit_expiry(premium, strike, size, chart_low, chart_high, option_type, step_number):
     profit_list = []
     step = (chart_high - chart_low) / step_number
     count = 0
     if option_type == "C":
         while count < step_number + 1:
             if chart_low + (count * step) < strike:
-                profit_list.append(0 - premium)
+                profit_list.append((0 - premium) * size)
             else:
-                profit_list.append((chart_low + (count * step)) - strike - premium)
+                profit_list.append(((chart_low + (count * step)) - strike - premium) * size)
             count = count + 1
     else:
         while count < step_number + 1:
             if chart_low + (count * step) < strike:
-                profit_list.append(strike - (chart_low + (count * step)) - premium)
+                profit_list.append((strike - (chart_low + (count * step)) - premium) * size)
             else:
-                profit_list.append(0 - premium)
+                profit_list.append((0 - premium) * size)
             count = count + 1
     return profit_list
 
 
-def inverse_option_profit_expiry(premium, strike, chart_low, chart_high, option_type, step_number):
+def inverse_option_profit_expiry(premium, strike, size, chart_low, chart_high, option_type, step_number):
     profit_list = []
     step = (chart_high - chart_low) / step_number
     count = 0
     if option_type == "C":
         while count < step_number + 1:
             if chart_low + (count * step) < strike:
-                profit_list.append(0 - premium)
+                profit_list.append((0 - premium) * size)
             else:
-                profit_list.append(((chart_low + (count * step)) - strike)/(chart_low + (count * step)) - premium)
+                profit_list.append((((chart_low + (count * step)) - strike)/(chart_low + (count * step)) - premium) * size)
             count = count + 1
     else:
         while count < step_number + 1:
             if chart_low + (count * step) < strike:
-                profit_list.append((strike - (chart_low + (count * step)))/(chart_low + (count * step)) - premium)
+                profit_list.append(((strike - (chart_low + (count * step)))/(chart_low + (count * step)) - premium) * size)
             else:
-                profit_list.append(0 - premium)
+                profit_list.append((0 - premium) * size)
             count = count + 1
     return profit_list
 
