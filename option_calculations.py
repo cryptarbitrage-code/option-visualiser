@@ -6,6 +6,7 @@ Np = norm.pdf
 
 
 def option_profit_expiry(premium, strike, size, chart_low, chart_high, option_type, step_number):
+    # calculates the profit at expiry of a linear option
     profit_list = []
     step = (chart_high - chart_low) / step_number
     count = 0
@@ -27,6 +28,7 @@ def option_profit_expiry(premium, strike, size, chart_low, chart_high, option_ty
 
 
 def inverse_option_profit_expiry(premium, strike, size, chart_low, chart_high, option_type, step_number):
+    # calculates the profit at expiry of an inverse option
     profit_list = []
     step = (chart_high - chart_low) / step_number
     count = 0
@@ -48,6 +50,7 @@ def inverse_option_profit_expiry(premium, strike, size, chart_low, chart_high, o
 
 
 def bs_price(S, K, T, R, sigma, option_type):
+    # calculates the black scholes price of an option
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
     d2 = d1 - sigma * np.sqrt(T)
 
@@ -59,6 +62,7 @@ def bs_price(S, K, T, R, sigma, option_type):
 
 
 def bs_delta(S, K, T, R, sigma, option_type):
+    # calculates the black scholes delta of an option
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
     if option_type == "C":
         delta = N(d1)
@@ -68,6 +72,7 @@ def bs_delta(S, K, T, R, sigma, option_type):
 
 
 def bs_gamma(S, K, T, R, sigma):
+    # calculates the black scholes gamma of an option
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
 
     gamma = Np(d1) / (S * sigma * np.sqrt(T))
@@ -75,6 +80,7 @@ def bs_gamma(S, K, T, R, sigma):
 
 
 def bs_vega(S, K, T, R, sigma):
+    # calculates the black scholes vega of an option
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
 
     vega = S * Np(d1) * np.sqrt(T)
@@ -82,6 +88,7 @@ def bs_vega(S, K, T, R, sigma):
 
 
 def bs_theta(S, K, T, R, sigma, option_type):
+    # calculates the black scholes theta of an option
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
     d2 = d1 - sigma * np.sqrt(T)
 
@@ -93,6 +100,7 @@ def bs_theta(S, K, T, R, sigma, option_type):
 
 
 def bs_rho(S, K, T, R, sigma, option_type):
+    # calculates the black scholes rho of an option
     d1 = (np.log(S / K) + (R + sigma ** 2 / 2) * T) / (sigma * np.sqrt(T))
     d2 = d1 - sigma * np.sqrt(T)
 

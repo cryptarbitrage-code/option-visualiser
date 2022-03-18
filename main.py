@@ -1,6 +1,4 @@
 from tkinter import *
-from tkinter import ttk
-import time
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.figure import Figure
@@ -24,7 +22,7 @@ details_frame.grid(row=0, column=0, padx=2, pady=2, sticky=NW)
 option_details_frame = LabelFrame(root, text="Option Details", padx=2, pady=2)
 option_details_frame.grid(row=1, column=0, padx=2, pady=2, sticky=NW)
 # Chart frames
-chart1_frame = LabelFrame(root, text="Option Profit/Loss", padx=2, pady=2)
+chart1_frame = LabelFrame(root, text="Profit/Loss", padx=2, pady=2)
 chart1_frame.grid(row=0, column=1, rowspan=2, padx=2, pady=2)
 
 
@@ -119,7 +117,7 @@ chart_maxprice_label.grid(row=2, column=0)
 chart_maxprice_input = Entry(details_frame, width=15)
 chart_maxprice_input.grid(row=2, column=1, padx=5, pady=5)
 
-# option_details_frame
+# option_details_frame column headings
 selected_option_type = StringVar()
 selected_option_type.set("Call")
 option_type_label = Label(option_details_frame, text="Option Type:")
@@ -135,7 +133,6 @@ include_label.grid(row=0, column=4)
 
 # initialise the array of option details
 number_of_options = 4
-number_of_fields = 7
 option_details_list = []
 for i in range(0, number_of_options):
     single_option = {'option_type_var': 'Call',
@@ -146,7 +143,7 @@ for i in range(0, number_of_options):
                      'include_variable': 0,
                      'include_checkbox': 0}
     option_details_list.append(single_option)
-print(option_details_list)
+
 # populate the array with the correct elements
 for i in range(0, number_of_options):
     # option type variable
@@ -173,12 +170,13 @@ for i in range(0, number_of_options):
 
 
 # button that displays the plot
-plot_button = Button(master=option_details_frame,
+plot_button = Button(master=details_frame,
                      command=plot_charts,
                      height=2,
                      width=10,
-                     text="Plot")
+                     text="Plot",
+                     bg="#88bb88")
 
-plot_button.grid(row=6, column=0, columnspan=2)
+plot_button.grid(row=4, column=1)
 
 root.mainloop()
