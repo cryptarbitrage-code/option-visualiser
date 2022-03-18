@@ -7,8 +7,6 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 import option_calculations as oc
 
-# NEED TO TAKE POSITION SIZES INTO ACCOUNT
-
 # Some chart parameters
 step_number = 100
 chart_size = (6, 4)
