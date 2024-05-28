@@ -7,7 +7,7 @@ import option_calculations as oc
 
 # Some chart parameters
 step_number = 100
-chart_size = (6, 4)
+chart_size = (12, 8)
 
 # tkinter set up
 root = Tk()
@@ -74,11 +74,14 @@ def plot_charts():
     # adding the subplot
     plot1 = fig1.add_subplot(111)
     # plotting the graph
-    plot1.plot(x_range, option1_data, linewidth=2, label='Total PNL')
+    plot1.plot(x_range, option1_data, linewidth=2, label='Total PNL at expiry')
     plot1.fill_between(x_range, option1_data, 0, where=(option1_np < zero_np), facecolor='red', interpolate=True, alpha=0.15)
     plot1.fill_between(x_range, option1_data, 0, where=(option1_np >= zero_np), facecolor='green', interpolate=True, alpha=0.15)
     plot1.set_xlabel('Underlying Price')
-    plot1.set_ylabel('Profit/Loss')
+    if selected_contract_type.get() == "Linear":
+        plot1.set_ylabel('Profit/Loss (USD)')
+    else:
+        plot1.set_ylabel('Profit/Loss')
     # plot1.set_title('Chart Title')
     plot1.legend()
     plot1.grid(True, alpha=0.25)
